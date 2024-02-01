@@ -1,6 +1,6 @@
 Для запуска нужен Docker  
 
-Для поднятия:  
+Для поднятия: 
 ``docker-compose up``
 
 Для разработки:
@@ -9,7 +9,7 @@
 Либо установить Task - 
 https://taskfile.dev/installation/
 
-После установки Task
+После установки Task:
 ``task run``
 
 
