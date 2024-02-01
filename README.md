@@ -10,7 +10,6 @@
 https://taskfile.dev/installation/
 
 После установки Task
-
 ``task run``
 
 
