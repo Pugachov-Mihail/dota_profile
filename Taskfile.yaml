@@ -1,0 +1,11 @@
+version: "3"
+
+tasks:
+  default:
+    cmds:
+      - task: run
+  run:
+    desc: "run watch"
+    cmds:
+      - docker-compose watch
+
