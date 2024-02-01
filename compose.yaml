@@ -1,0 +1,64 @@
+services:
+    my_team:
+      restart: always
+      build: my_team
+      env_file:
+        - my_team/.env
+      ports:
+        - 8000:8000
+      depends_on:
+        - db
+      command: ["/code/docker/app.sh"]
+      develop:
+        watch:
+          - path: my_team
+            action: rebuild
+
+    db:
+      image: postgres:15
+      container_name: db_postgre
+      environment:
+          POSTGRES_PASSWORD: "123456"
+          POSTGRES_HOST: "localhost"
+          POSTGRES_USER: "postgre"
+          POSTGRES_DB: "postgre"
+      ports:
+        - 5432:5432
+      env_file:
+        - my_team/.env
+
+    parse_api:
+      build: parse_dota
+      env_file:
+        - parse_dota/.env
+      depends_on:
+        - mongo
+      ports:
+        - 8001:8000
+      develop:
+        watch:
+          - path: parse_dota
+            action: rebuild
+
+    mongo:
+      image: mongo
+      restart: always
+      ports:
+        - 27017:27017
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: example
+      volumes:
+        - type: bind
+          source: ./data
+          target: /data/db
+
+    mongo-express:
+      image: mongo-express
+      restart: always
+      ports:
+        - 8081:8081
+      environment:
+        ME_CONFIG_MONGODB_ADMINUSERNAME: root
+        ME_CONFIG_MONGODB_ADMINPASSWORD: example
+        ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
